@@ -9,7 +9,8 @@ import "./MyToken.sol";
 contract Bank_Token 
 {
 
-    struct UserProfile {
+    struct UserProfile 
+    {
         string name;          
         address userAddress;  
         uint256 balance;     
@@ -46,14 +47,14 @@ contract Bank_Token
         userProfiles[_addr].userAddress = _addr;
     }
 
-    function deposit(address _addr, uint256 amount) public updateTransactionState(amount >= MIN_DEPOSIT) 
+    function deposit(uint256 amount) public updateTransactionState(amount >= MIN_DEPOSIT) 
     {
 
         require(amount >= MIN_DEPOSIT, "Deposit amount is too small.");
 
-        require(token.transferFrom(msg.sender, address(this), amount), "Token transfer failed.");
+        token.transferFrom(msg.sender, address(this), amount);
 
-        userProfiles[_addr].balance += amount;
+        userProfiles[msg.sender].balance += amount;
     }
 
     function withdraw(address _addr, uint256 _amount) public updateTransactionState(_amount <= MAX_WITHDRAWAL && userProfiles[_addr].balance >= _amount) 
@@ -66,6 +67,16 @@ contract Bank_Token
         userProfiles[_addr].balance -= _amount;
 
         require(token.transfer(_addr, _amount), "Token transfer failed.");
+    }
+
+    function ret_own () public view returns (address)
+    {
+        return (msg.sender);
+    }
+
+    function get_balance () public view returns (uint)
+    {
+        return address(this).balance;
     }
 
 

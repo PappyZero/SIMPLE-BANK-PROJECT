@@ -3,7 +3,8 @@ pragma solidity ^0.8.24;
 
 import "./ERC20.sol";
 
-contract MyToken is ERC20 {
+contract MyToken is ERC20 
+{
     address public owner = msg.sender;
     constructor(string memory name, string memory symbol, uint8 decimals)
         ERC20(name, symbol, decimals)
@@ -12,7 +13,7 @@ contract MyToken is ERC20 {
         // Similar to how
         // 1 dollar = 100 cents
         // 1 token = 1 * (10 ** decimals)
-        _mint(msg.sender, 10 * 10 ** uint256(decimals));
+        _mint(msg.sender, 10 * 10 ** decimals);
     }
 
     function get() public view returns (address)
